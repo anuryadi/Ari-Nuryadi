@@ -1,7 +1,7 @@
 package main
 
 import (
-	"AssessmentTestBackendTelkom/file/log/apache"
+	"arinuryadi/file/log/apache"
 	"bufio"
 	"fmt"
 	"log"

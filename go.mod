@@ -1,3 +1,3 @@
-module AssessmentTestBackendTelkom
+module arinuryadi
 
 go 1.13

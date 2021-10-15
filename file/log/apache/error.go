@@ -1,7 +1,7 @@
 package apache
 
 import (
-	"AssessmentTestBackendTelkom/config"
+	"arinuryadi/config"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
