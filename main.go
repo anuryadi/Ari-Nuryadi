@@ -10,10 +10,6 @@ import (
 )
 
 func main() {
-	// os.Open() opens specific file in
-	// read-only mode and this return
-	// a pointer of type os.
-
 	if len(os.Args) < 2 {
 		fmt.Println("Missing parameter, provide file name!")
 		return
@@ -39,7 +35,6 @@ func main() {
 
 	file.Close()
 
-	fmt.Println(len(os.Args))
 	if len(os.Args) == 2 {
 		apache.CreateText(fileName[0]+".txt", text)
 		return
@@ -52,12 +47,9 @@ func main() {
 					if os.Args[4] == "-o" {
 						apache.CreateText(os.Args[5], text)
 						return
-					} else {
-						log.Fatal("The folder is not set yet")
 					}
 				} else {
-					apache.CreateText(fileName[0]+".txt", text)
-					return
+					log.Fatal("The folder is not set yet")
 				}
 			}
 		}
@@ -69,10 +61,8 @@ func main() {
 					apache.CreateJson(os.Args[5], text)
 					return
 				}
-
 			} else {
-				apache.CreateJson(fileName[0]+".json", text)
-				return
+				log.Fatal("The folder is not set yet")
 			}
 		}
 
