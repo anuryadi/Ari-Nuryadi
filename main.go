@@ -3,6 +3,7 @@ package main
 import (
 	"arinuryadi/file/log/apache"
 	"arinuryadi/file/log/dpkg"
+	"arinuryadi/file/log/kern"
 	"bufio"
 	"fmt"
 	"log"
@@ -37,21 +38,45 @@ func main() {
 
 	file.Close()
 
-	if len(os.Args) == 2 {
-		if filename[3] == "apache2" {
-			apache.CreateText(fileName[0]+".txt", text)
-		}
-
-		if fileName[0] == "dpkg" {
-			dpkg.CreateTextDpkg(fileName[0]+".txt", text)
-		}
-
-		return
-	}
+	processCreateFileNoFlag(fileName[0], filename[3], text)
 
 	if len(os.Args) >= 3 {
+		processCreateFileWithFlagT(fileName[0], filename[3], text)
+
+		processCreateFileWithFlagO(fileName[0], filename[3], text)
+
+		if os.Args[2] == "-h" {
+			fmt.Println("Cara Kerja")
+			return
+		}
+	}
+}
+
+func processCreateFileNoFlag(fileName, filename string, text []string) {
+	if len(os.Args) == 2 {
+		if filename == "apache2" {
+			apache.CreateText(fileName+".txt", text)
+			return
+		}
+
+		if fileName == "dpkg" {
+			dpkg.CreateTextDpkg(fileName+".txt", text)
+			return
+		}
+
+		if fileName == "kern" {
+			kern.CreateTextKern(fileName+".txt", text)
+			return
+		}
+	}
+}
+
+func processCreateFileWithFlagT(fileName, filename string, text []string) {
+	// Validasi
+	if len(os.Args) > 3 {
+		// Pembuatan File With Flag -t Jenis File Text
 		if os.Args[2] == "-t" && os.Args[3] == "text" {
-			if filename[3] == "apache2" {
+			if filename == "apache2" {
 				if len(os.Args) == 5 {
 					if os.Args[4] == "-o" {
 						if len(os.Args) == 6 {
@@ -62,11 +87,11 @@ func main() {
 						}
 					}
 				} else {
-					apache.CreateText(fileName[0]+".txt", text)
+					apache.CreateText(fileName+".txt", text)
 				}
 			}
 
-			if fileName[0] == "dpkg" {
+			if fileName == "dpkg" {
 				if len(os.Args) == 5 || len(os.Args) == 6 {
 					if os.Args[4] == "-o" {
 						if len(os.Args) == 6 {
@@ -77,13 +102,29 @@ func main() {
 						}
 					}
 				} else {
-					dpkg.CreateTextDpkg(fileName[0]+".txt", text)
+					dpkg.CreateTextDpkg(fileName+".txt", text)
+				}
+			}
+
+			if fileName == "kern" {
+				if len(os.Args) == 5 || len(os.Args) == 6 {
+					if os.Args[4] == "-o" {
+						if len(os.Args) == 6 {
+							kern.CreateTextKern(os.Args[5], text)
+							return
+						} else {
+							log.Fatal("The folder is not set yet")
+						}
+					}
+				} else {
+					kern.CreateTextKern(fileName+".txt", text)
 				}
 			}
 		}
 
+		// Pembuatan File With Flag -t Jenis File Json
 		if os.Args[2] == "-t" && os.Args[3] == "json" {
-			if filename[3] == "apache2" {
+			if filename == "apache2" {
 				if len(os.Args) == 5 || len(os.Args) == 6 {
 					if os.Args[4] == "-o" {
 						if len(os.Args) == 6 {
@@ -94,11 +135,11 @@ func main() {
 						}
 					}
 				} else {
-					apache.CreateJson(fileName[0]+".json", text)
+					apache.CreateJson(fileName+".json", text)
 				}
 			}
 
-			if fileName[0] == "dpkg" {
+			if fileName == "dpkg" {
 				if len(os.Args) == 5 || len(os.Args) == 6 {
 					if os.Args[4] == "-o" {
 						if len(os.Args) == 6 {
@@ -109,26 +150,57 @@ func main() {
 						}
 					}
 				} else {
-					dpkg.CreateJson(fileName[0]+".json", text)
+					dpkg.CreateJson(fileName+".json", text)
+				}
+			}
+
+			if fileName == "kern" {
+				if len(os.Args) == 5 || len(os.Args) == 6 {
+					if os.Args[4] == "-o" {
+						if len(os.Args) == 6 {
+							kern.CreateJsonKern(os.Args[5], text)
+							return
+						} else {
+							log.Fatal("The folder is not set yet")
+						}
+					}
+				} else {
+					kern.CreateJsonKern(fileName+".json", text)
 				}
 			}
 		}
+	} else {
+		log.Fatal("Text Type Is Not Set Yet")
+	}
+}
 
-		if os.Args[2] == "-o" {
-			if len(os.Args) == 4 {
-				if filename[3] == "apache2" {
-					apache.CreateText(os.Args[3], text)
-					return
-				}
-
-			} else {
-				log.Fatal("The folder is not set yet")
+func processCreateFileWithFlagO(fileName, filename string, text []string) {
+	if os.Args[2] == "-o" {
+		if len(os.Args) == 4 {
+			if filename == "apache2" {
+				apache.CreateText(os.Args[3], text)
+				return
 			}
+		} else {
+			log.Fatal("The folder is not set yet")
 		}
 
-		if os.Args[2] == "-h" {
-			fmt.Println("Cara Kerja")
-			return
+		if len(os.Args) == 4 {
+			if fileName == "dpkg" {
+				dpkg.CreateTextDpkg(os.Args[3], text)
+				return
+			}
+		} else {
+			log.Fatal("The folder is not set yet")
+		}
+
+		if len(os.Args) == 4 {
+			if fileName == "kern" {
+				kern.CreateTextKern(os.Args[3], text)
+				return
+			}
+		} else {
+			log.Fatal("The folder is not set yet")
 		}
 	}
 }

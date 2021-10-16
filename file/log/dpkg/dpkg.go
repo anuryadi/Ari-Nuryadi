@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -32,17 +31,9 @@ func CreateJson(fileName string, text []string) {
 		return
 	}
 
-	unescapeJson, _ := UnescapeUnicodeCharactersInJSON(json)
+	unescapeJson, _ := config.UnescapeUnicodeCharactersInJSON(json)
 
 	_ = ioutil.WriteFile(fileName, unescapeJson, 0644)
-}
-
-func UnescapeUnicodeCharactersInJSON(jsonRaw []byte) ([]byte, error) {
-	str, err := strconv.Unquote(strings.Replace(strconv.Quote(string(jsonRaw)), `\\u`, `\u`, -1))
-	if err != nil {
-		return nil, err
-	}
-	return []byte(str), nil
 }
 
 func CreateTextDpkg(fileName string, text []string) {
