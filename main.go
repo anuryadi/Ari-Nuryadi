@@ -18,10 +18,33 @@ func main() {
 		return
 	}
 
+	if os.Args[1] == "-h" {
+		fmt.Println("Usage : go run main.go <path file> <flag> <detail>")
+		fmt.Println("Option :")
+		fmt.Println("  -t \t\t\t Flag For Option to Convert the File to Plaintext (text) or JSON (json)")
+		fmt.Println("  -o \t\t\t Flag For Choose Where He Will Put the Output File. [/home/$USER/text.txt], [/home/$USER/text.json]")
+		fmt.Println("  -h \t\t\t Flag For Instructions for Use.")
+		fmt.Println("")
+		fmt.Println("List File :")
+		fmt.Println("> /var/log/apache2/error.log")
+		fmt.Println("> /var/log/dpkg.log")
+		fmt.Println("> /var/log/kern.log")
+		fmt.Println("> /var/log/auth.log")
+		fmt.Println("")
+		fmt.Println("Example :")
+		fmt.Println("> go run main.go /var/log/auth.log \t\t\t\t\t Output File txt")
+		fmt.Println("> go run main.go /var/log/auth.log -t text \t\t\t\t Output File txt")
+		fmt.Println("> go run main.go /var/log/auth.log -t json \t\t\t\t Output File json")
+		fmt.Println("> go run main.go /var/log/auth.log -t json -o /home/$USER/text.json \t Output File in Folder /home/$USER/ with Type Json and File Name text.json")
+		fmt.Println("> go run main.go /var/log/auth.log -o /home/$USER/text.txt \t\t Output File In Folder /home/$USER/ with File Name text.txt")
+		fmt.Println("> go run main.go -h \t\t\t\t\t\t\t Instructions for Use.")
+
+		return
+	}
+
 	filename := strings.Split(os.Args[1], "/")
 	fileName := strings.Split(filename[len(filename)-1], ".")
 
-	fmt.Println(fileName)
 	file, err := os.Open(os.Args[1])
 
 	if err != nil {
@@ -45,11 +68,6 @@ func main() {
 		processCreateFileWithFlagT(fileName[0], filename[3], text)
 
 		processCreateFileWithFlagO(fileName[0], filename[3], text)
-
-		if os.Args[2] == "-h" {
-			fmt.Println("Cara Kerja")
-			return
-		}
 	}
 }
 
