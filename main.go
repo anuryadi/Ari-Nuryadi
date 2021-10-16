@@ -2,6 +2,7 @@ package main
 
 import (
 	"arinuryadi/file/log/apache"
+	"arinuryadi/file/log/auth"
 	"arinuryadi/file/log/dpkg"
 	"arinuryadi/file/log/kern"
 	"bufio"
@@ -68,109 +69,147 @@ func processCreateFileNoFlag(fileName, filename string, text []string) {
 			kern.CreateTextKern(fileName+".txt", text)
 			return
 		}
+
+		if fileName == "auth" {
+			auth.CreateTextAuth(fileName+".txt", text)
+			return
+		}
 	}
 }
 
 func processCreateFileWithFlagT(fileName, filename string, text []string) {
-	// Validasi
-	if len(os.Args) > 3 {
-		// Pembuatan File With Flag -t Jenis File Text
-		if os.Args[2] == "-t" && os.Args[3] == "text" {
-			if filename == "apache2" {
-				if len(os.Args) == 5 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							apache.CreateText(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
+
+	if os.Args[2] == "-t" {
+		// Validasi
+		if len(os.Args) > 3 {
+			// Pembuatan File With Flag -t Jenis File Text
+			if os.Args[3] == "text" {
+				if filename == "apache2" {
+					if len(os.Args) == 5 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								apache.CreateText(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
 						}
+					} else {
+						apache.CreateText(fileName+".txt", text)
 					}
-				} else {
-					apache.CreateText(fileName+".txt", text)
+				}
+
+				if fileName == "dpkg" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								dpkg.CreateTextDpkg(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
+						}
+					} else {
+						dpkg.CreateTextDpkg(fileName+".txt", text)
+					}
+				}
+
+				if fileName == "kern" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								kern.CreateTextKern(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
+						}
+					} else {
+						kern.CreateTextKern(fileName+".txt", text)
+					}
+				}
+
+				if fileName == "auth" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								auth.CreateTextAuth(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
+						}
+					} else {
+						auth.CreateTextAuth(fileName+".txt", text)
+					}
 				}
 			}
 
-			if fileName == "dpkg" {
-				if len(os.Args) == 5 || len(os.Args) == 6 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							dpkg.CreateTextDpkg(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
+			// Pembuatan File With Flag -t Jenis File Json
+			if os.Args[3] == "json" {
+				if filename == "apache2" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								apache.CreateJson(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
 						}
+					} else {
+						apache.CreateJson(fileName+".json", text)
 					}
-				} else {
-					dpkg.CreateTextDpkg(fileName+".txt", text)
 				}
-			}
 
-			if fileName == "kern" {
-				if len(os.Args) == 5 || len(os.Args) == 6 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							kern.CreateTextKern(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
+				if fileName == "dpkg" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								dpkg.CreateJson(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
 						}
+					} else {
+						dpkg.CreateJson(fileName+".json", text)
 					}
-				} else {
-					kern.CreateTextKern(fileName+".txt", text)
+				}
+
+				if fileName == "kern" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								kern.CreateJsonKern(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
+						}
+					} else {
+						kern.CreateJsonKern(fileName+".json", text)
+					}
+				}
+
+				if fileName == "auth" {
+					if len(os.Args) == 5 || len(os.Args) == 6 {
+						if os.Args[4] == "-o" {
+							if len(os.Args) == 6 {
+								auth.CreateJsonAuth(os.Args[5], text)
+								return
+							} else {
+								log.Fatal("The folder is not set yet")
+							}
+						}
+					} else {
+						auth.CreateJsonAuth(fileName+".json", text)
+					}
 				}
 			}
+		} else {
+			log.Fatal("Type Text is not set yet")
 		}
-
-		// Pembuatan File With Flag -t Jenis File Json
-		if os.Args[2] == "-t" && os.Args[3] == "json" {
-			if filename == "apache2" {
-				if len(os.Args) == 5 || len(os.Args) == 6 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							apache.CreateJson(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
-						}
-					}
-				} else {
-					apache.CreateJson(fileName+".json", text)
-				}
-			}
-
-			if fileName == "dpkg" {
-				if len(os.Args) == 5 || len(os.Args) == 6 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							dpkg.CreateJson(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
-						}
-					}
-				} else {
-					dpkg.CreateJson(fileName+".json", text)
-				}
-			}
-
-			if fileName == "kern" {
-				if len(os.Args) == 5 || len(os.Args) == 6 {
-					if os.Args[4] == "-o" {
-						if len(os.Args) == 6 {
-							kern.CreateJsonKern(os.Args[5], text)
-							return
-						} else {
-							log.Fatal("The folder is not set yet")
-						}
-					}
-				} else {
-					kern.CreateJsonKern(fileName+".json", text)
-				}
-			}
-		}
-	} else {
-		log.Fatal("Text Type Is Not Set Yet")
 	}
 }
 
@@ -197,6 +236,15 @@ func processCreateFileWithFlagO(fileName, filename string, text []string) {
 		if len(os.Args) == 4 {
 			if fileName == "kern" {
 				kern.CreateTextKern(os.Args[3], text)
+				return
+			}
+		} else {
+			log.Fatal("The folder is not set yet")
+		}
+
+		if len(os.Args) == 4 {
+			if fileName == "auth" {
+				auth.CreateTextAuth(os.Args[3], text)
 				return
 			}
 		} else {
