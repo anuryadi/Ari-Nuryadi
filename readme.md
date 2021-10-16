@@ -1,4 +1,7 @@
- Usage : go run main.go [path file] [flag] [detail]
+## Usage : go run main.go [path file] [flag] [detail]
+### Testing in :
+> Ubuntu 20.04
+
 ### Option :
 > -t          :           Flag For Option to Convert the File to Plaintext (text) or JSON (json)
 > 
